@@ -153,7 +153,7 @@ public class GameEngine extends SurfaceView implements Runnable {
     final int BALL_SPEED = 10;
 
     boolean movingRight = true;
-    final int PADDLE_DISTANCE = 50;
+    final int  PADDLE_SPEED = 50;
 
     // 1. Tell Android the (x,y) positions of your sprites
     public void updatePositions() {
@@ -167,9 +167,10 @@ public class GameEngine extends SurfaceView implements Runnable {
         }
 
         // @TODO: Collision detection code
-        if (ballPosition.x > screenHeight) {
+        if (ballPosition.x > screenWidth) {
             Log.d(TAG, "Ball reached bottom of screen. Changing direction!");
             movingDown = false;
+            this.score = this.score + 1;
         }
 
         if (ballPosition.x < 0) {
@@ -179,6 +180,30 @@ public class GameEngine extends SurfaceView implements Runnable {
         }
 
         // Log.d(TAG, "Ball y-position: " + ballPosition.y);
+
+        // ---------------------------
+        // Make racket move
+        // ---------------------------
+        if (movingRight == true) {
+            racketPosition.x = racketPosition.x + PADDLE_SPEED;
+        }
+        else {
+            racketPosition.x = racketPosition.x - PADDLE_SPEED;
+        }
+
+        // @TODO: Collision detection code
+        if (racketPosition.x > screenWidth) {
+            Log.d(TAG, "Racket reached right of screen. Changing direction!");
+            movingRight = false;
+        }
+
+        if (racketPosition.x < 0) {
+            Log.d(TAG, "Racket reached left of screen. Changing direction!");
+            movingRight = true;
+        }
+
+        Log.d(TAG, "Racket x-position: " + racketPosition.x);
+
 
     }
 
@@ -244,15 +269,15 @@ public class GameEngine extends SurfaceView implements Runnable {
             // user pushed down on screen
 
             Log.d(TAG, "The person tapped: (" + event.getX() + "," + event.getY() + ")");
-
-            if (event.getX() < this.screenWidth / 2) {
-                Log.d(TAG, "Person clicked LEFT side");
-                racketPosition.x = racketPosition.x - PADDLE_DISTANCE;
-            }
-            else {
-                Log.d(TAG, "Person clicked RIGHT side");
-                racketPosition.x = racketPosition.x + PADDLE_DISTANCE;
-            }
+//
+//            if (event.getX() < this.screenWidth / 2) {
+//                Log.d(TAG, "Person clicked LEFT side");
+//                racketPosition.x = racketPosition.x - PADDLE_DISTANCE;
+//            }
+//            else {
+//                Log.d(TAG, "Person clicked RIGHT side");
+//                racketPosition.x = racketPosition.x + PADDLE_DISTANCE;
+//            }
 
 
 
